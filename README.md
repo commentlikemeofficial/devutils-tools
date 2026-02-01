@@ -1,36 +1,112 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# DevUtils - Micro-Tools SaaS Platform
 
-## Getting Started
+A modern, fast, and privacy-focused collection of developer tools built with Next.js 14, TypeScript, Tailwind CSS, and shadcn/ui.
 
-First, run the development server:
+![DevUtils Screenshot](screenshot.png)
+
+## 🚀 Features
+
+- **LinkedIn Character Counter** - Count characters, words, and preview LinkedIn posts, comments, headlines, and about sections
+- **JSON Formatter** - Format, minify, and validate JSON with error highlighting
+- **Token Counter** - Estimate GPT-4, Claude, and other LLM token counts using tiktoken-style encoding
+
+## 🛠 Tech Stack
+
+- **Framework:** Next.js 14 (App Router)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS
+- **UI Components:** shadcn/ui
+- **Icons:** Lucide React
+- **Token Counting:** js-tiktoken
+
+## 📦 Installation
 
 ```bash
+# Clone the repository
+git clone <repo-url>
+cd my-app
+
+# Install dependencies
+npm install
+
+# Run development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# Open http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🔧 Build for Production
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+# Build static export
+npm run build
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# Output will be in the `dist` folder
+```
 
-## Learn More
+## 🌐 Deployment
 
-To learn more about Next.js, take a look at the following resources:
+### Vercel (Recommended)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Push your code to GitHub
+2. Import your repository on [Vercel](https://vercel.com)
+3. Deploy with default settings
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Static Hosting
 
-## Deploy on Vercel
+The project is configured for static export. Simply upload the `dist` folder to any static hosting provider (Netlify, Cloudflare Pages, GitHub Pages, etc.)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📁 Project Structure
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+my-app/
+├── app/                    # Next.js app directory
+│   ├── tools/             # Tool pages
+│   │   ├── linkedin-counter/
+│   │   ├── json-formatter/
+│   │   └── token-counter/
+│   ├── layout.tsx         # Root layout
+│   ├── page.tsx           # Home page
+│   ├── not-found.tsx      # 404 page
+│   └── globals.css        # Global styles
+├── components/            # React components
+│   ├── ui/               # shadcn/ui components
+│   ├── navbar.tsx        # Navigation bar
+│   ├── theme-provider.tsx # Dark mode provider
+│   └── theme-toggle.tsx   # Theme switcher
+├── lib/
+│   └── utils.ts          # Utility functions
+├── dist/                 # Build output
+└── next.config.ts        # Next.js configuration
+```
+
+## 🎨 Customization
+
+### Adding a New Tool
+
+1. Create a new folder in `app/tools/[tool-name]/`
+2. Add `layout.tsx` with metadata
+3. Add `page.tsx` with your tool component
+4. Update `components/navbar.tsx` to include the new tool
+5. Update `app/page.tsx` to add the tool card
+
+### Theming
+
+The project uses CSS variables for theming. Edit `app/globals.css` to customize colors.
+
+Dark mode is supported out of the box via the theme toggle in the navbar.
+
+## 📄 License
+
+MIT License - feel free to use this project for personal or commercial purposes.
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## 🙏 Acknowledgments
+
+- [shadcn/ui](https://ui.shadcn.com) for the beautiful UI components
+- [Next.js](https://nextjs.org) for the amazing framework
+- [Tailwind CSS](https://tailwindcss.com) for the utility-first CSS
+- [js-tiktoken](https://github.com/dqbd/tiktoken) for token counting
