@@ -9,7 +9,9 @@ import {
   ArrowRight,
   Zap,
   Shield,
-  Sparkles
+  Sparkles,
+  ArrowRightLeft,
+  Code
 } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -41,6 +43,22 @@ const tools = [
     description: "Estimate token counts for GPT-4, Claude, and other LLMs using tiktoken-style encoding. Optimize your prompts and stay within limits.",
     color: "text-purple-600",
     bgColor: "bg-purple-100 dark:bg-purple-900/20",
+  },
+  {
+    name: "Text Diff",
+    href: "/tools/text-diff",
+    icon: ArrowRightLeft,
+    description: "Compare two texts side by side and see differences highlighted. Perfect for reviewing code changes or document edits.",
+    color: "text-orange-600",
+    bgColor: "bg-orange-100 dark:bg-orange-900/20",
+  },
+  {
+    name: "Base64 Converter",
+    href: "/tools/base64",
+    icon: Code,
+    description: "Encode text to Base64 or decode Base64 back to text. Essential for working with APIs, tokens, and binary data.",
+    color: "text-pink-600",
+    bgColor: "bg-pink-100 dark:bg-pink-900/20",
   },
 ];
 

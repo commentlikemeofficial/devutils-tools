@@ -1,112 +1,73 @@
-# DevUtils - Micro-Tools SaaS Platform
+# 🛠️ DevUtils - Micro Tools Platform
 
-A modern, fast, and privacy-focused collection of developer tools built with Next.js 14, TypeScript, Tailwind CSS, and shadcn/ui.
+**Status:** ✅ BUILT | 🚀 DEPLOY PENDING
 
-![DevUtils Screenshot](screenshot.png)
+## What Was Built Tonight
 
-## 🚀 Features
+A modern micro-tools SaaS platform with 3 core tools:
 
-- **LinkedIn Character Counter** - Count characters, words, and preview LinkedIn posts, comments, headlines, and about sections
-- **JSON Formatter** - Format, minify, and validate JSON with error highlighting
-- **Token Counter** - Estimate GPT-4, Claude, and other LLM token counts using tiktoken-style encoding
+### Tools Included
 
-## 🛠 Tech Stack
+1. **LinkedIn Character Counter** (`/tools/linkedin-counter`)
+   - Real-time character count
+   - Post/comment/headline limit warnings
+   - Live preview
+   - Copy to clipboard
 
-- **Framework:** Next.js 14 (App Router)
-- **Language:** TypeScript
-- **Styling:** Tailwind CSS
-- **UI Components:** shadcn/ui
-- **Icons:** Lucide React
-- **Token Counting:** js-tiktoken
+2. **JSON Formatter** (`/tools/json-formatter`)
+   - Prettify, minify, validate JSON
+   - Error highlighting
+   - Token/key statistics
+   - Copy formatted output
 
-## 📦 Installation
+3. **Token Counter** (`/tools/token-counter`)
+   - GPT-4, Claude, GPT-3.5 support
+   - Tiktoken encoding estimation
+   - Pricing estimates
+   - Token breakdown visualization
 
+### Features
+- 🎨 Modern UI with shadcn/ui components
+- 🌙 Dark mode support with theme toggle
+- 📱 Responsive design (mobile/tablet/desktop)
+- 🔍 SEO meta tags per page
+- 📋 Copy to clipboard on all tools
+- 🔒 Privacy-first (client-side processing)
+- 🎨 Custom 404 page
+
+### Tech Stack
+- Next.js 14 + TypeScript
+- Tailwind CSS
+- shadcn/ui components
+- Static export (deploy anywhere)
+
+### Deployment
+
+**Option 1: Vercel (Recommended)**
 ```bash
-# Clone the repository
-git clone <repo-url>
-cd my-app
-
-# Install dependencies
-npm install
-
-# Run development server
-npm run dev
-
-# Open http://localhost:3000
+cd /home/ubuntu/clawd/projects/devutils-tools
+vercel --prod
 ```
 
-## 🔧 Build for Production
-
+**Option 2: Netlify**
 ```bash
-# Build static export
-npm run build
-
-# Output will be in the `dist` folder
+cd /home/ubuntu/clawd/projects/devutils-tools/dist
+netlify deploy --prod --dir=.
 ```
 
-## 🌐 Deployment
+**Option 3: Cloudflare Pages**
+Upload `dist/` folder directly
 
-### Vercel (Recommended)
+### Project Location
+`/home/ubuntu/clawd/projects/devutils-tools/`
 
-1. Push your code to GitHub
-2. Import your repository on [Vercel](https://vercel.com)
-3. Deploy with default settings
+### Next Steps
+1. Deploy to get live URL
+2. Add analytics (Plausible/GA)
+3. Add 2 more tools (Text Diff, Base64)
+4. Set up monetization (Pro tier)
+5. Launch on Product Hunt
 
-### Static Hosting
-
-The project is configured for static export. Simply upload the `dist` folder to any static hosting provider (Netlify, Cloudflare Pages, GitHub Pages, etc.)
-
-## 📁 Project Structure
-
-```
-my-app/
-├── app/                    # Next.js app directory
-│   ├── tools/             # Tool pages
-│   │   ├── linkedin-counter/
-│   │   ├── json-formatter/
-│   │   └── token-counter/
-│   ├── layout.tsx         # Root layout
-│   ├── page.tsx           # Home page
-│   ├── not-found.tsx      # 404 page
-│   └── globals.css        # Global styles
-├── components/            # React components
-│   ├── ui/               # shadcn/ui components
-│   ├── navbar.tsx        # Navigation bar
-│   ├── theme-provider.tsx # Dark mode provider
-│   └── theme-toggle.tsx   # Theme switcher
-├── lib/
-│   └── utils.ts          # Utility functions
-├── dist/                 # Build output
-└── next.config.ts        # Next.js configuration
-```
-
-## 🎨 Customization
-
-### Adding a New Tool
-
-1. Create a new folder in `app/tools/[tool-name]/`
-2. Add `layout.tsx` with metadata
-3. Add `page.tsx` with your tool component
-4. Update `components/navbar.tsx` to include the new tool
-5. Update `app/page.tsx` to add the tool card
-
-### Theming
-
-The project uses CSS variables for theming. Edit `app/globals.css` to customize colors.
-
-Dark mode is supported out of the box via the theme toggle in the navbar.
-
-## 📄 License
-
-MIT License - feel free to use this project for personal or commercial purposes.
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## 🙏 Acknowledgments
-
-- [shadcn/ui](https://ui.shadcn.com) for the beautiful UI components
-- [Next.js](https://nextjs.org) for the amazing framework
-- [Tailwind CSS](https://tailwindcss.com) for the utility-first CSS
-- [js-tiktoken](https://github.com/dqbd/tiktoken) for token counting
+---
+*Built by Steve Night Shift 🌙*
+*Date: 2026-02-01*
