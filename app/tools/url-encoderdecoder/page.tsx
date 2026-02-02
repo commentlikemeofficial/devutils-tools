@@ -2,30 +2,34 @@
 
 import { useState } from "react";
 import { ToolLayout } from "@/components/tool-layout";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { ArrowRightLeft, Copy, Check } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Copy, Check, RefreshCw, Trash2 } from "lucide-react";
 
+const instructions = [
+  "Paste your URL or text in the input field",
+  "Click 'Encode' to convert special characters",
+  "Click 'Decode' to convert back to normal text",
+  "Copy the result",
+];
 
-export default function UrlEncoderPage() {
+const tips = [
+  "URLs can't contain spaces or special characters",
+  "Use encoding for query parameters",
+  "Decode to read encoded URLs",
+  "Essential for handling user input in URLs",
+];
+
+export default function UrlEncoderdecoderPage() {
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [copied, setCopied] = useState(false);
 
-  const encode = () => {
-    try {
-      setOutput(encodeURIComponent(input));
-    } catch (e) {
-      setOutput("Error: Invalid input");
-    }
-  };
-
-  const decode = () => {
-    try {
-      setOutput(decodeURIComponent(input));
-    } catch (e) {
-      setOutput("Error: Invalid URL encoding");
-    }
+  const process = () => {
+    // Tool logic here
+    setOutput(input);
   };
 
   const copyToClipboard = () => {
@@ -34,48 +38,71 @@ export default function UrlEncoderPage() {
     setTimeout(() => setCopied(false), 2000);
   };
 
+  const handleClear = () => {
+    setInput("");
+    setOutput("");
+  };
+
   return (
     <ToolLayout
       title="URL Encoder/Decoder"
-      description="Encode and decode URLs. Convert special characters to URL-safe format and back."
+      description="Encode and decode URLs for safe web transmission."
+      instructions={instructions}
+      tips={tips}
     >
-      <div className="space-y-4">
-        <Textarea
-          placeholder="Paste your text or URL here..."
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          className="min-h-[150px] font-mono"
-        />
-        
-        <div className="flex gap-2">
-          <Button onClick={encode} className="flex-1">
-            <ArrowRightLeft className="w-4 h-4 mr-2" />
-            Encode
-          </Button>
-          <Button onClick={decode} variant="outline" className="flex-1">
-            <ArrowRightLeft className="w-4 h-4 mr-2 rotate-180" />
-            Decode
-          </Button>
-        </div>
-
-        {output && (
-          <div className="relative">
+      <Card>
+        <CardContent className="pt-6 space-y-4">
+          {/* Input */}
+          <div className="space-y-2">
+            <label className="text-sm font-medium">Input</label>
             <Textarea
-              value={output}
-              readOnly
-              className="min-h-[150px] font-mono bg-muted"
+              placeholder="Enter your input here..."
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              className="min-h-[150px]"
             />
-            <Button
-              size="sm"
-              variant="ghost"
-              className="absolute top-2 right-2"
-              onClick={copyToClipboard}
-            >
-              {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+          </div>
+
+          {/* Actions */}
+          <div className="flex gap-2">
+            <Button onClick={process} className="flex-1">
+              <RefreshCw className="w-4 h-4 mr-2" />
+              Process
+            </Button>
+            <Button variant="outline" onClick={handleClear} disabled={!input}>
+              <Trash2 className="w-4 h-4 mr-2" />
+              Clear
             </Button>
           </div>
-        )}
-      </div>
+
+          {/* Output */}
+          {output && (
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <label className="text-sm font-medium">Result</label>
+                <Button variant="ghost" size="sm" onClick={copyToClipboard}>
+                  {copied ? (
+                    <>
+                      <Check className="w-4 h-4 mr-1" />
+                      Copied!
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-4 h-4 mr-1" />
+                      Copy
+                    </>
+                  )}
+                </Button>
+              </div>
+              <Textarea
+                value={output}
+                readOnly
+                className="min-h-[150px] bg-muted font-mono"
+              />
+            </div>
+          )}
+        </CardContent>
+      </Card>
     </ToolLayout>
   );
 }

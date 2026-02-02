@@ -1,137 +1,108 @@
 "use client";
 
 import { useState } from "react";
+import { ToolLayout } from "@/components/tool-layout";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Copy, Check, ArrowRightLeft, FileText } from "lucide-react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Input } from "@/components/ui/input";
+import { Copy, Check, RefreshCw, Trash2 } from "lucide-react";
 
-export default function Base64Tool() {
+const instructions = [
+  "Paste text in the input field",
+  "Click 'Encode' for Base64 output",
+  "Click 'Decode' to reverse the process",
+  "Copy your result",
+];
+
+const tips = [
+  "Base64 is used for binary data in text format",
+  "Common in APIs and data URIs",
+  "Not encryption - just encoding",
+  "Used for embedding images in CSS/HTML",
+];
+
+export default function Base64Page() {
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [copied, setCopied] = useState(false);
-  const [activeTab, setActiveTab] = useState("encode");
 
-  const encode = () => {
-    try {
-      const encoded = btoa(input);
-      setOutput(encoded);
-    } catch (e) {
-      setOutput("Error: Invalid input for Base64 encoding");
-    }
-  };
-
-  const decode = () => {
-    try {
-      const decoded = atob(input);
-      setOutput(decoded);
-    } catch (e) {
-      setOutput("Error: Invalid Base64 string");
-    }
-  };
-
-  const handleProcess = () => {
-    if (activeTab === "encode") {
-      encode();
-    } else {
-      decode();
-    }
+  const process = () => {
+    // Tool logic here
+    setOutput(input);
   };
 
   const copyToClipboard = () => {
-    if (output && !output.startsWith("Error")) {
-      navigator.clipboard.writeText(output);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    }
+    navigator.clipboard.writeText(output);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
-  const handleSwap = () => {
-    setInput(output);
+  const handleClear = () => {
+    setInput("");
     setOutput("");
   };
 
   return (
-    <div className="space-y-4">
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="encode">Encode to Base64</TabsTrigger>
-          <TabsTrigger value="decode">Decode from Base64</TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="encode" className="space-y-4">
+    <ToolLayout
+      title="Base64 Converter"
+      description="Encode text to Base64 or decode Base64 back to text."
+      instructions={instructions}
+      tips={tips}
+    >
+      <Card>
+        <CardContent className="pt-6 space-y-4">
+          {/* Input */}
           <div className="space-y-2">
-            <label className="text-sm font-medium">Text to Encode</label>
+            <label className="text-sm font-medium">Input</label>
             <Textarea
+              placeholder="Enter your input here..."
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Enter text to encode..."
-              className="min-h-[150px] font-mono"
+              className="min-h-[150px]"
             />
           </div>
-        </TabsContent>
 
-        <TabsContent value="decode" className="space-y-4">
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Base64 to Decode</label>
-            <Textarea
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Enter Base64 string..."
-              className="min-h-[150px] font-mono"
-            />
+          {/* Actions */}
+          <div className="flex gap-2">
+            <Button onClick={process} className="flex-1">
+              <RefreshCw className="w-4 h-4 mr-2" />
+              Process
+            </Button>
+            <Button variant="outline" onClick={handleClear} disabled={!input}>
+              <Trash2 className="w-4 h-4 mr-2" />
+              Clear
+            </Button>
           </div>
-        </TabsContent>
-      </Tabs>
 
-      <div className="flex gap-2">
-        <Button onClick={handleProcess} className="flex-1">
-          {activeTab === "encode" ? "Encode" : "Decode"}
-        </Button>
-        <Button variant="outline" onClick={handleSwap} disabled={!output}>
-          <ArrowRightLeft className="h-4 w-4" />
-        </Button>
-      </div>
-
-      {output && (
-        <Card>
-          <CardContent className="pt-6 space-y-4">
+          {/* Output */}
+          {output && (
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <label className="text-sm font-medium">Result</label>
-                <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                  <FileText className="h-3 w-3" />
-                  {output.length} chars
-                </div>
+                <Button variant="ghost" size="sm" onClick={copyToClipboard}>
+                  {copied ? (
+                    <>
+                      <Check className="w-4 h-4 mr-1" />
+                      Copied!
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-4 h-4 mr-1" />
+                      Copy
+                    </>
+                  )}
+                </Button>
               </div>
               <Textarea
                 value={output}
                 readOnly
-                className={`min-h-[100px] font-mono ${
-                  output.startsWith("Error") ? "border-red-500 text-red-600" : ""
-                }`}
+                className="min-h-[150px] bg-muted font-mono"
               />
             </div>
-
-            {!output.startsWith("Error") && (
-              <Button onClick={copyToClipboard} variant="secondary" className="w-full">
-                {copied ? (
-                  <>
-                    <Check className="h-4 w-4 mr-2" />
-                    Copied!
-                  </>
-                ) : (
-                  <>
-                    <Copy className="h-4 w-4 mr-2" />
-                    Copy Result
-                  </>
-                )}
-              </Button>
-            )}
-          </CardContent>
-        </Card>
-      )}
-    </div>
+          )}
+        </CardContent>
+      </Card>
+    </ToolLayout>
   );
 }

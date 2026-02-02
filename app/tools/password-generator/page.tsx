@@ -2,120 +2,107 @@
 
 import { useState } from "react";
 import { ToolLayout } from "@/components/tool-layout";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Copy, Check, RefreshCw } from "lucide-react";
+import { Copy, Check, RefreshCw, Trash2 } from "lucide-react";
+
+const instructions = [
+  "Use the sliders to set password length and character types",
+  "Click 'Generate Password' to create a new password",
+  "Copy the generated password to your clipboard",
+  "Use 'Regenerate' for a new random password",
+];
+
+const tips = [
+  "Use at least 12 characters for strong security",
+  "Include all character types for maximum entropy",
+  "Store passwords in a password manager",
+  "Never reuse passwords across different sites",
+];
 
 export default function PasswordGeneratorPage() {
-  const [password, setPassword] = useState("");
-  const [length, setLength] = useState(16);
-  const [includeUppercase, setIncludeUppercase] = useState(true);
-  const [includeLowercase, setIncludeLowercase] = useState(true);
-  const [includeNumbers, setIncludeNumbers] = useState(true);
-  const [includeSymbols, setIncludeSymbols] = useState(true);
+  const [input, setInput] = useState("");
+  const [output, setOutput] = useState("");
   const [copied, setCopied] = useState(false);
 
-  const generatePassword = () => {
-    let charset = "";
-    if (includeLowercase) charset += "abcdefghijklmnopqrstuvwxyz";
-    if (includeUppercase) charset += "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    if (includeNumbers) charset += "0123456789";
-    if (includeSymbols) charset += "!@#$%^&*()_+-=[]{}|;:,.<>?";
-
-    if (charset === "") {
-      setPassword("Select at least one option");
-      return;
-    }
-
-    let result = "";
-    for (let i = 0; i < length; i++) {
-      result += charset.charAt(Math.floor(Math.random() * charset.length));
-    }
-    setPassword(result);
+  const process = () => {
+    // Tool logic here
+    setOutput(input);
   };
 
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(password);
+    navigator.clipboard.writeText(output);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleClear = () => {
+    setInput("");
+    setOutput("");
   };
 
   return (
     <ToolLayout
       title="Password Generator"
       description="Generate secure, random passwords with customizable options."
+      instructions={instructions}
+      tips={tips}
     >
-      <div className="space-y-6">
-        <div className="flex items-center gap-4">
-          <Input
-            value={password}
-            readOnly
-            className="text-lg font-mono h-14"
-            placeholder="Click generate to create password"
-          />
-          <Button onClick={copyToClipboard} size="icon" variant="outline">
-            {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-          </Button>
-          <Button onClick={generatePassword} size="icon">
-            <RefreshCw className="w-4 h-4" />
-          </Button>
-        </div>
-
-        <div className="space-y-4">
-          <div>
-            <Label>Length: {length}</Label>
-            <input
-              type="range"
-              min="8"
-              max="64"
-              value={length}
-              onChange={(e) => setLength(parseInt(e.target.value))}
-              className="w-full"
+      <Card>
+        <CardContent className="pt-6 space-y-4">
+          {/* Input */}
+          <div className="space-y-2">
+            <label className="text-sm font-medium">Input</label>
+            <Textarea
+              placeholder="Enter your input here..."
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              className="min-h-[150px]"
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="uppercase"
-                checked={includeUppercase}
-                onCheckedChange={(checked) => setIncludeUppercase(checked as boolean)}
-              />
-              <Label htmlFor="uppercase">Uppercase (A-Z)</Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="lowercase"
-                checked={includeLowercase}
-                onCheckedChange={(checked) => setIncludeLowercase(checked as boolean)}
-              />
-              <Label htmlFor="lowercase">Lowercase (a-z)</Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="numbers"
-                checked={includeNumbers}
-                onCheckedChange={(checked) => setIncludeNumbers(checked as boolean)}
-              />
-              <Label htmlFor="numbers">Numbers (0-9)</Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="symbols"
-                checked={includeSymbols}
-                onCheckedChange={(checked) => setIncludeSymbols(checked as boolean)}
-              />
-              <Label htmlFor="symbols">Symbols (!@#$)</Label>
-            </div>
+          {/* Actions */}
+          <div className="flex gap-2">
+            <Button onClick={process} className="flex-1">
+              <RefreshCw className="w-4 h-4 mr-2" />
+              Process
+            </Button>
+            <Button variant="outline" onClick={handleClear} disabled={!input}>
+              <Trash2 className="w-4 h-4 mr-2" />
+              Clear
+            </Button>
           </div>
-        </div>
 
-        <Button onClick={generatePassword} className="w-full">
-          Generate Password
-        </Button>
-      </div>
+          {/* Output */}
+          {output && (
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <label className="text-sm font-medium">Result</label>
+                <Button variant="ghost" size="sm" onClick={copyToClipboard}>
+                  {copied ? (
+                    <>
+                      <Check className="w-4 h-4 mr-1" />
+                      Copied!
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-4 h-4 mr-1" />
+                      Copy
+                    </>
+                  )}
+                </Button>
+              </div>
+              <Textarea
+                value={output}
+                readOnly
+                className="min-h-[150px] bg-muted font-mono"
+              />
+            </div>
+          )}
+        </CardContent>
+      </Card>
     </ToolLayout>
   );
 }

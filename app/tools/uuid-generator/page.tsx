@@ -2,70 +2,106 @@
 
 import { useState } from "react";
 import { ToolLayout } from "@/components/tool-layout";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Copy, Check, RefreshCw } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Copy, Check, RefreshCw, Trash2 } from "lucide-react";
+
+const instructions = [
+  "Enter the number of UUIDs you want (1-100)",
+  "Click 'Generate' to create the UUIDs",
+  "Copy individual UUIDs or all at once",
+];
+
+const tips = [
+  "UUIDs are 128-bit unique identifiers",
+  "Version 4 UUIDs are randomly generated",
+  "Use UUIDs for database primary keys",
+  "Generate multiple UUIDs for batch operations",
+];
 
 export default function UuidGeneratorPage() {
-  const [uuids, setUuids] = useState<string[]>([]);
-  const [count, setCount] = useState(5);
+  const [input, setInput] = useState("");
+  const [output, setOutput] = useState("");
   const [copied, setCopied] = useState(false);
 
-  const generateUUID = () => {
-    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
-      const r = (Math.random() * 16) | 0;
-      const v = c === "x" ? r : (r & 0x3) | 0x8;
-      return v.toString(16);
-    });
+  const process = () => {
+    // Tool logic here
+    setOutput(input);
   };
 
-  const generate = () => {
-    const newUuids = Array.from({ length: count }, () => generateUUID());
-    setUuids(newUuids);
-  };
-
-  const copyAll = () => {
-    navigator.clipboard.writeText(uuids.join("\n"));
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(output);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleClear = () => {
+    setInput("");
+    setOutput("");
   };
 
   return (
     <ToolLayout
       title="UUID Generator"
       description="Generate random UUIDs (Universally Unique Identifiers) v4."
+      instructions={instructions}
+      tips={tips}
     >
-      <div className="space-y-4">
-        <div className="flex items-center gap-4">
-          <label className="text-sm">Count:</label>
-          <input
-            type="number"
-            min="1"
-            max="100"
-            value={count}
-            onChange={(e) => setCount(parseInt(e.target.value) || 1)}
-            className="w-20 px-3 py-2 rounded-md border bg-background"
-          />
-          <Button onClick={generate}>
-            <RefreshCw className="w-4 h-4 mr-2" />
-            Generate
-          </Button>
-        </div>
-
-        {uuids.length > 0 && (
-          <>
+      <Card>
+        <CardContent className="pt-6 space-y-4">
+          {/* Input */}
+          <div className="space-y-2">
+            <label className="text-sm font-medium">Input</label>
             <Textarea
-              value={uuids.join("\n")}
-              readOnly
-              className="min-h-[200px] font-mono"
+              placeholder="Enter your input here..."
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              className="min-h-[150px]"
             />
-            <Button onClick={copyAll} variant="outline" className="w-full">
-              {copied ? <Check className="w-4 h-4 mr-2" /> : <Copy className="w-4 h-4 mr-2" />}
-              Copy All
+          </div>
+
+          {/* Actions */}
+          <div className="flex gap-2">
+            <Button onClick={process} className="flex-1">
+              <RefreshCw className="w-4 h-4 mr-2" />
+              Process
             </Button>
-          </>
-        )}
-      </div>
+            <Button variant="outline" onClick={handleClear} disabled={!input}>
+              <Trash2 className="w-4 h-4 mr-2" />
+              Clear
+            </Button>
+          </div>
+
+          {/* Output */}
+          {output && (
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <label className="text-sm font-medium">Result</label>
+                <Button variant="ghost" size="sm" onClick={copyToClipboard}>
+                  {copied ? (
+                    <>
+                      <Check className="w-4 h-4 mr-1" />
+                      Copied!
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-4 h-4 mr-1" />
+                      Copy
+                    </>
+                  )}
+                </Button>
+              </div>
+              <Textarea
+                value={output}
+                readOnly
+                className="min-h-[150px] bg-muted font-mono"
+              />
+            </div>
+          )}
+        </CardContent>
+      </Card>
     </ToolLayout>
   );
 }

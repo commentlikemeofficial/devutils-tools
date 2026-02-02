@@ -1,20 +1,21 @@
 "use client";
 
 import { useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Textarea } from "@/components/ui/textarea";
+import { ToolLayout, CopyButton } from "@/components/tool-layout";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   Copy, 
   Trash2, 
-  Linkedin,
   CheckCircle2,
   AlertCircle,
   Type,
-  AlignLeft
+  AlignLeft,
+  RefreshCcw
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -34,9 +35,11 @@ function LinkedInPreview({ text, type }: { text: string; type: keyof typeof LIMI
   const previewText = type === "headline" ? text : truncateText(text, 150);
 
   return (
-    <div className="border rounded-lg p-4 bg-white dark:bg-zinc-900">
+    <div className="border rounded-xl p-4 bg-white dark:bg-zinc-900 shadow-sm">
       <div className="flex items-start gap-3">
-        <div className="w-12 h-12 rounded-full bg-gray-200 dark:bg-zinc-700 flex-shrink-0" />
+        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex-shrink-0 flex items-center justify-center text-white font-bold">
+          YN
+        </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
             <span className="font-semibold text-sm">Your Name</span>
@@ -45,7 +48,7 @@ function LinkedInPreview({ text, type }: { text: string; type: keyof typeof LIMI
           <p className="text-sm text-muted-foreground line-clamp-1">
             {type === "headline" ? previewText : "Your Headline"}
           </p>
-          <p className="text-sm text-muted-foreground">2h • Edited • 🌐</p>
+          <p className="text-xs text-muted-foreground mt-0.5">2h • Edited • 🌐</p>
           {type !== "headline" && (
             <p className="mt-2 text-sm whitespace-pre-wrap">{previewText || "Your post content will appear here..."}</p>
           )}
@@ -80,7 +83,6 @@ function LinkedInPreview({ text, type }: { text: string; type: keyof typeof LIMI
 export default function LinkedInCounterPage() {
   const [text, setText] = useState("");
   const [activeTab, setActiveTab] = useState<keyof typeof LIMITS>("post");
-  const [copied, setCopied] = useState(false);
 
   const currentLimit = LIMITS[activeTab].limit;
   const charCount = text.length;
@@ -89,118 +91,112 @@ export default function LinkedInCounterPage() {
   const percentage = Math.min((charCount / currentLimit) * 100, 100);
   const isOverLimit = charCount > currentLimit;
 
-  const handleCopy = async () => {
-    await navigator.clipboard.writeText(text);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
-  const handleClear = () => {
-    setText("");
+  const handleClear = () => setText("");
+  
+  const handleSample = () => {
+    const samples: Record<string, string> = {
+      post: "Just shipped a new feature! 🚀\n\nAfter 3 weeks of coding, debugging, and way too much coffee, the new dashboard is live.\n\nKey highlights:\n✓ Real-time analytics\n✓ Dark mode support\n✓ 10x faster load times\n\nWhat features would you like to see next? Drop a comment below! 👇\n\n#buildinpublic #indiehackers #webdev",
+      comment: "This is exactly what I needed! Thanks for sharing. The real-time analytics feature looks particularly useful for tracking user engagement.",
+      headline: "Full Stack Developer | Building DevUtils | Helping developers ship faster",
+      about: "Passionate developer building tools that make life easier. Currently working on DevUtils - a collection of 35+ free developer tools.\n\nPreviously: Senior dev at TechCorp\nEducation: Computer Science, MIT"
+    };
+    setText(samples[activeTab] || samples.post);
   };
 
   return (
-    <div className="container mx-auto max-w-6xl py-8 px-4">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold flex items-center gap-2">
-          <Linkedin className="h-8 w-8 text-blue-600" />
-          LinkedIn Character Counter
-        </h1>
-        <p className="text-muted-foreground mt-2">
-          Count characters, words, and preview your LinkedIn content. Stay within platform limits.
-        </p>
-      </div>
-
+    <ToolLayout
+      title="LinkedIn Character Counter"
+      description="Count characters, words, and preview your LinkedIn posts, comments, and headlines. Stay within platform limits and optimize your content."
+      popular={true}
+      instructions={[
+        "Select your content type (Post, Comment, Headline, or About)",
+        "Type or paste your text in the input area",
+        "Watch the character count update in real-time",
+        "Use the preview to see how it will look on LinkedIn",
+        "Copy the text when you're ready to post"
+      ]}
+      tips={[
+        "LinkedIn posts with 1,300-1,500 characters get the most engagement",
+        "Headlines should be under 120 characters for optimal display",
+        "Comments under 200 characters tend to get more replies",
+        "Use the preview to check how your content will appear on mobile"
+      ]}
+    >
       <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as keyof typeof LIMITS)} className="space-y-6">
-        <TabsList className="grid w-full grid-cols-4 lg:w-fit">
-          <TabsTrigger value="post">Post</TabsTrigger>
-          <TabsTrigger value="comment">Comment</TabsTrigger>
-          <TabsTrigger value="headline">Headline</TabsTrigger>
-          <TabsTrigger value="about">About</TabsTrigger>
+        <TabsList className="grid w-full grid-cols-4">
+          {Object.entries(LIMITS).map(([key, { label }]) => (
+            <TabsTrigger key={key} value={key} className="text-xs sm:text-sm">
+              {label}
+            </TabsTrigger>
+          ))}
         </TabsList>
 
         {Object.entries(LIMITS).map(([key, { limit, label }]) => (
           <TabsContent key={key} value={key} className="space-y-6">
-            <div className="grid lg:grid-cols-2 gap-6">
-              {/* Input Section */}
-              <Card>
-                <CardHeader className="pb-3">
-                  <div className="flex items-center justify-between">
-                    <CardTitle className="text-lg flex items-center gap-2">
-                      <Type className="h-4 w-4" />
-                      Your {label}
-                    </CardTitle>
-                    <div className="flex gap-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={handleCopy}
-                        disabled={!text}
-                      >
-                        {copied ? (
-                          <CheckCircle2 className="h-4 w-4 text-green-500" />
-                        ) : (
-                          <Copy className="h-4 w-4" />
-                        )}
-                        <span className="ml-2 hidden sm:inline">
-                          {copied ? "Copied!" : "Copy"}
-                        </span>
-                      </Button>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={handleClear}
-                        disabled={!text}
-                      >
-                        <Trash2 className="h-4 w-4" />
-                        <span className="ml-2 hidden sm:inline">Clear</span>
-                      </Button>
+            {/* Input Card */}
+            <Card>
+              <CardContent className="pt-6 space-y-4">
+                {/* Toolbar */}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Type className="w-4 h-4 text-muted-foreground" />
+                    <span className="text-sm font-medium">Your {label}</span>
+                  </div>
+                  <div className="flex gap-2">
+                    <Button variant="outline" size="sm" onClick={handleSample}>
+                      <RefreshCcw className="w-3.5 h-3.5 mr-1" />
+                      Sample
+                    </Button>
+                    <Button variant="ghost" size="sm" onClick={handleClear} disabled={!text}>
+                      <Trash2 className="w-3.5 h-3.5 mr-1" />
+                      Clear
+                    </Button>
+                  </div>
+                </div>
+
+                {/* Textarea */}
+                <Textarea
+                  placeholder={`Type your LinkedIn ${label.toLowerCase()} here...`}
+                  value={text}
+                  onChange={(e) => setText(e.target.value)}
+                  className={cn(
+                    "min-h-[200px] resize-none text-base",
+                    isOverLimit && "border-red-500 focus-visible:ring-red-500"
+                  )}
+                />
+
+                {/* Stats */}
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-muted-foreground">Character Count</span>
+                    <div className="flex items-center gap-2">
+                      <span className={cn(
+                        "font-mono font-medium text-lg",
+                        isOverLimit ? "text-red-500" : "text-green-600"
+                      )}>
+                        {charCount.toLocaleString()}
+                      </span>
+                      <span className="text-muted-foreground">/</span>
+                      <span className="text-muted-foreground">{limit.toLocaleString()}</span>
                     </div>
                   </div>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <Textarea
-                    placeholder={`Type your LinkedIn ${label.toLowerCase()} here...`}
-                    value={text}
-                    onChange={(e) => setText(e.target.value)}
+                  
+                  <Progress 
+                    value={percentage} 
                     className={cn(
-                      "min-h-[200px] resize-none",
-                      isOverLimit && "border-red-500 focus-visible:ring-red-500"
+                      "h-2",
+                      percentage > 100 ? "bg-red-200 [&>div]:bg-red-500" :
+                      percentage > 90 ? "bg-yellow-200 [&>div]:bg-yellow-500" :
+                      "bg-green-200 [&>div]:bg-green-500"
                     )}
                   />
                   
-                  {/* Stats */}
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="text-muted-foreground">Character Count</span>
-                      <div className="flex items-center gap-2">
-                        <span className={cn(
-                          "font-mono font-medium",
-                          isOverLimit ? "text-red-500" : "text-green-600"
-                        )}>
-                          {charCount.toLocaleString()}
-                        </span>
-                        <span className="text-muted-foreground">/</span>
-                        <span className="text-muted-foreground">{limit.toLocaleString()}</span>
-                      </div>
-                    </div>
-                    
-                    <Progress 
-                      value={percentage} 
-                      className={cn(
-                        "h-2",
-                        percentage > 100 ? "bg-red-200 [&>div]:bg-red-500" :
-                        percentage > 90 ? "bg-yellow-200 [&>div]:bg-yellow-500" :
-                        ""
-                      )}
-                    />
-                    
-                    <div className="flex items-center justify-between text-sm">
+                  <div className="grid grid-cols-2 gap-4 text-sm">
+                    <div className="flex justify-between">
                       <span className="text-muted-foreground">Words</span>
                       <span className="font-mono">{wordCount.toLocaleString()}</span>
                     </div>
-                    
-                    <div className="flex items-center justify-between text-sm">
+                    <div className="flex justify-between">
                       <span className="text-muted-foreground">Remaining</span>
                       <span className={cn(
                         "font-mono font-medium",
@@ -212,33 +208,33 @@ export default function LinkedInCounterPage() {
                   </div>
 
                   {isOverLimit && (
-                    <div className="flex items-center gap-2 text-sm text-red-500 bg-red-50 dark:bg-red-950/20 p-3 rounded-md">
-                      <AlertCircle className="h-4 w-4" />
-                      You&apos;ve exceeded the {label.toLowerCase()} limit by {Math.abs(remaining).toLocaleString()} characters.
+                    <div className="flex items-center gap-2 text-sm text-red-500 bg-red-50 dark:bg-red-950/20 p-3 rounded-lg">
+                      <AlertCircle className="w-4 h-4 shrink-0" />
+                      You've exceeded the {label.toLowerCase()} limit by {Math.abs(remaining).toLocaleString()} characters.
                     </div>
                   )}
-                </CardContent>
-              </Card>
+                </div>
 
-              {/* Preview Section */}
-              <Card>
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-lg flex items-center gap-2">
-                    <AlignLeft className="h-4 w-4" />
-                    Preview
-                  </CardTitle>
-                  <CardDescription>
-                    See how your {label.toLowerCase()} will appear on LinkedIn
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <LinkedInPreview text={text} type={key as keyof typeof LIMITS} />
-                </CardContent>
-              </Card>
-            </div>
+                {/* Copy Button */}
+                <div className="flex gap-2">
+                  <CopyButton text={text} className="flex-1" />
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Preview Card */}
+            <Card>
+              <CardContent className="pt-6">
+                <div className="flex items-center gap-2 mb-4">
+                  <AlignLeft className="w-4 h-4 text-muted-foreground" />
+                  <span className="text-sm font-medium">Live Preview</span>
+                </div>
+                <LinkedInPreview text={text} type={key as keyof typeof LIMITS} />
+              </CardContent>
+            </Card>
           </TabsContent>
         ))}
       </Tabs>
-    </div>
+    </ToolLayout>
   );
 }
