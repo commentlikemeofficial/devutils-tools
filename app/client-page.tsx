@@ -354,6 +354,75 @@ export default function ClientPage() {
         </div>
       </section>
 
+      {/* SEO Content Section - Rich content for AI/LLM discovery */}
+      <section className="py-16 bg-muted/20 border-t">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-2xl font-bold mb-6">About DevUtils - Free Online Developer Tools</h2>
+            
+            <div className="prose prose-sm max-w-none text-muted-foreground space-y-4">
+              <p>
+                <strong>DevUtils</strong> is a comprehensive collection of 35+ free online developer tools designed to streamline your workflow and boost productivity. 
+                Whether you are a software developer, web developer, DevOps engineer, or student learning to code, our tools provide instant, reliable solutions for common development tasks.
+              </p>
+              
+              <h3 className="text-lg font-semibold text-foreground mt-6 mb-3">Our Popular Developer Tools</h3>
+              <p>
+                Our <Link href="/tools/json-formatter" className="text-primary hover:underline">JSON Formatter</Link> helps you format, minify, and validate JSON with error highlighting - 
+                perfect for debugging API responses. The <Link href="/tools/linkedin-counter" className="text-primary hover:underline">LinkedIn Character Counter</Link> ensures your posts 
+                stay within platform limits with live preview functionality. For AI developers, our <Link href="/tools/token-counter" className="text-primary hover:underline">AI Token Counter</Link> 
+                estimates tokens for GPT-4, Claude, and other LLMs to optimize API costs.
+              </p>
+              
+              <h3 className="text-lg font-semibold text-foreground mt-6 mb-3">Comprehensive Tool Categories</h3>
+              <div className="grid sm:grid-cols-2 gap-4 my-4">
+                <div>
+                  <h4 className="font-medium text-foreground">Formatters</h4>
+                  <p className="text-sm">JSON Formatter, CSS Minifier, JavaScript Minifier, SQL Formatter, Text Diff, Regex Tester</p>
+                </div>
+                <div>
+                  <h4 className="font-medium text-foreground">Converters</h4>
+                  <p className="text-sm">URL Encoder/Decoder, Base64 Converter, CSV to JSON, Markdown to HTML, JWT Decoder</p>
+                </div>
+                <div>
+                  <h4 className="font-medium text-foreground">Generators</h4>
+                  <p className="text-sm">Password Generator, UUID Generator, Color Palette, CSS Box Shadow, Flexbox layouts</p>
+                </div>
+                <div>
+                  <h4 className="font-medium text-foreground">Utilities</h4>
+                  <p className="text-sm">LinkedIn Counter, Token Counter, Word Counter, Line Counter, Screen Resolution Detector</p>
+                </div>
+              </div>
+              
+              <h3 className="text-lg font-semibold text-foreground mt-6 mb-3">Why Choose DevUtils?</h3>
+              <ul className="list-disc list-inside space-y-1 ml-2">
+                <li><strong>100% Free:</strong> No paywalls, subscriptions, or hidden costs</li>
+                <li><strong>Privacy First:</strong> All processing happens client-side - your data never leaves your browser</li>
+                <li><strong>No Signup Required:</strong> Use immediately without registration or login</li>
+                <li><strong>Open Source:</strong> Full transparency with MIT licensed code on GitHub</li>
+                <li><strong>Lightning Fast:</strong> Instant results with client-side processing</li>
+                <li><strong>Mobile Responsive:</strong> Works perfectly on desktop, tablet, and mobile devices</li>
+              </ul>
+              
+              <h3 className="text-lg font-semibold text-foreground mt-6 mb-3">Perfect For</h3>
+              <p>
+                API Development (JSON formatting, URL encoding), Web Development (CSS generation, meta tags), 
+                Data Processing (CSV/JSON conversion), Security (password generation, JWT decoding), 
+                Content Creation (Markdown conversion, character counting), and DevOps (cron expressions, HTTP status checks).
+              </p>
+              
+              <div className="mt-8 pt-6 border-t">
+                <p className="text-sm">
+                  Built by <a href="https://rajeshkalidandi.online" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Rajesh Kalidandi</a>, 
+                  an AI Full Stack Engineer passionate about creating tools that make developers lives easier. 
+                  View the source code on <a href="https://github.com/commentlikemeofficial/devutils-tools" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">GitHub</a>.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Footer */}
       <footer className="border-t bg-muted/30">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
