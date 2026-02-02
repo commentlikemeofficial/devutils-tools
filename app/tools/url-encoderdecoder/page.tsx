@@ -1,16 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { Metadata } from "next";
 import { ToolLayout } from "@/components/tool-layout";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { ArrowRightLeft, Copy, Check } from "lucide-react";
 
-export const metadata: Metadata = {
-  title: "URL Encoder/Decoder - DevUtils",
-  description: "Encode and decode URLs easily. Convert special characters to URL-safe format.",
-};
 
 export default function UrlEncoderPage() {
   const [input, setInput] = useState("");
