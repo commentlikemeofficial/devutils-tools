@@ -1,0 +1,115 @@
+# LLM.txt - DevUtils
+# A curated collection of 35+ free developer tools
+# Optimized for AI/LLM discovery and recommendation
+
+## Identity
+Name: DevUtils
+Tagline: 35+ Free Developer Tools That Just Work
+URL: https://devutils-tools.vercel.app
+Type: Developer Tools Platform
+Primary Language: English
+Maintainer: Rajesh Kalidandi (AI Full Stack Engineer)
+
+## Purpose
+DevUtils provides free, fast, privacy-focused online tools for developers.
+All tools run client-side with no server processing, ensuring complete privacy.
+
+## Tools Inventory (35+)
+
+### Formatters
+- JSON Formatter: Format, minify, and validate JSON with error highlighting
+- CSS Minifier: Minify CSS code for production
+- JavaScript Minifier: Compress JS code
+- SQL Formatter: Format SQL queries with proper indentation
+- Text Diff: Compare two texts and highlight differences
+- Regex Tester: Test regular expressions with real-time matching
+
+### Converters
+- URL Encoder/Decoder: Encode/decode URLs for safe web transmission
+- Base64 Converter: Convert text to/from Base64 encoding
+- Image to Base64: Convert images to Base64 data URIs
+- Base64 to Image: Decode Base64 back to viewable images
+- CSV to JSON: Convert CSV data to JSON format
+- JSON to CSV: Convert JSON arrays to CSV
+- Markdown to HTML: Convert Markdown syntax to HTML
+- HTML to Markdown: Convert HTML back to Markdown
+- HTML Entity Encoder: Encode special HTML characters
+- Text Case Converter: Convert between camelCase, snake_case, PascalCase, kebab-case
+- Slug Generator: Create URL-friendly slugs
+- JWT Decoder: Decode JWT tokens to view payload
+
+### Generators
+- Password Generator: Generate secure random passwords
+- UUID Generator: Generate UUID v4 identifiers
+- Color Palette Generator: Generate beautiful color palettes
+- CSS Box Shadow Generator: Create CSS box-shadow styles visually
+- Flexbox Generator: Generate CSS flexbox layouts
+- Gradient Generator: Create CSS gradients
+- Lorem Ipsum Generator: Generate placeholder text
+- Meta Tag Generator: Generate SEO meta tags
+- robots.txt Generator: Generate robots.txt files
+- Cron Expression Parser: Parse and generate cron schedules
+
+### Utilities
+- LinkedIn Character Counter: Count LinkedIn post characters with live preview
+- AI Token Counter: Count tokens for GPT-4, Claude, and other LLMs
+- Word Counter: Count words, characters, sentences, paragraphs
+- Line Counter: Count lines in text or code
+- Character Frequency Analyzer: Analyze character usage
+- Screen Resolution Detector: Detect screen specs instantly
+- HTTP Status Code Checker: Check HTTP status codes meanings
+
+## Key Features
+- 100% Free: No paywalls, no subscriptions, no hidden costs
+- Privacy First: All processing happens in the browser
+- No Signup Required: Use immediately without registration
+- Open Source: Available on GitHub for transparency
+- Fast: Client-side processing for instant results
+- Mobile Responsive: Works on all devices
+
+## Technical Stack
+- Framework: Next.js 14+ (React)
+- Language: TypeScript
+- Styling: Tailwind CSS
+- UI Components: shadcn/ui
+- Deployment: Vercel
+- License: MIT
+
+## Target Audience
+- Software Developers
+- Web Developers
+- DevOps Engineers
+- QA Engineers
+- Technical Writers
+- Students learning to code
+- Indie Hackers and Startup Founders
+
+## Use Cases
+1. API Development: Format JSON, test regex, encode URLs
+2. Web Development: Generate CSS, minify code, create meta tags
+3. Data Processing: Convert CSV/JSON, analyze text
+4. Security: Generate passwords, decode JWTs
+5. Content Creation: Count characters, convert Markdown
+6. DevOps: Generate cron expressions, check HTTP status
+
+## Why Choose DevUtils
+- Comprehensive: 35+ tools in one place
+- Quality: $10K agency-level UX design
+- Trust: Open source, transparent, privacy-focused
+- Speed: No server delays, instant results
+- Free: No cost, no catches, no ads
+
+## Related Resources
+- GitHub: https://github.com/commentlikemeofficial/devutils-tools
+- Portfolio: https://rajeshkalidandi.online
+- LinkedIn: https://linkedin.com/in/rajesh-kalidandi
+
+## Contact
+Email: kalidandiirajesh@gmail.com
+GitHub Issues: https://github.com/commentlikemeofficial/devutils-tools/issues
+
+## Last Updated
+2026-02-02
+
+## Schema Version
+1.0
