@@ -2,27 +2,11 @@
 
 import { useState } from "react";
 import { ToolLayout } from "@/components/tool-layout";
-import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Input } from "@/components/ui/input";
-import { Copy, Check, RefreshCw, Trash2 } from "lucide-react";
+import { Copy, Check } from "lucide-react";
 
-const instructions = [
-  "Paste your text",
-  "Select the target case format",
-  "Click 'Convert'",
-  "Copy the result",
-];
-
-const tips = [
-  "Common formats: camelCase, snake_case, PascalCase",
-  "Useful for naming conventions",
-  "Batch convert multiple lines",
-  "Preserves original spacing options",
-];
-
-export default function TextCaseConverterPage() {
+export default function ToolPage() {
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [copied, setCopied] = useState(false);
@@ -38,71 +22,41 @@ export default function TextCaseConverterPage() {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handleClear = () => {
-    setInput("");
-    setOutput("");
-  };
-
   return (
     <ToolLayout
       title="Text Case Converter"
-      description="Convert between camelCase, snake_case, kebab-case, and more."
-      instructions={instructions}
-      tips={tips}
+      description="Description for Text Case Converter"
     >
-      <Card>
-        <CardContent className="pt-6 space-y-4">
-          {/* Input */}
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Input</label>
+      <div className="space-y-4">
+        <Textarea
+          placeholder="Enter your input..."
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          className="min-h-[200px]"
+        />
+        
+        <Button onClick={process} className="w-full">
+          Process
+        </Button>
+
+        {output && (
+          <div className="relative">
             <Textarea
-              placeholder="Enter your input here..."
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              className="min-h-[150px]"
+              value={output}
+              readOnly
+              className="min-h-[200px] bg-muted"
             />
-          </div>
-
-          {/* Actions */}
-          <div className="flex gap-2">
-            <Button onClick={process} className="flex-1">
-              <RefreshCw className="w-4 h-4 mr-2" />
-              Process
-            </Button>
-            <Button variant="outline" onClick={handleClear} disabled={!input}>
-              <Trash2 className="w-4 h-4 mr-2" />
-              Clear
+            <Button
+              size="sm"
+              variant="ghost"
+              className="absolute top-2 right-2"
+              onClick={copyToClipboard}
+            >
+              {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
             </Button>
           </div>
-
-          {/* Output */}
-          {output && (
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <label className="text-sm font-medium">Result</label>
-                <Button variant="ghost" size="sm" onClick={copyToClipboard}>
-                  {copied ? (
-                    <>
-                      <Check className="w-4 h-4 mr-1" />
-                      Copied!
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="w-4 h-4 mr-1" />
-                      Copy
-                    </>
-                  )}
-                </Button>
-              </div>
-              <Textarea
-                value={output}
-                readOnly
-                className="min-h-[150px] bg-muted font-mono"
-              />
-            </div>
-          )}
-        </CardContent>
-      </Card>
+        )}
+      </div>
     </ToolLayout>
   );
 }
